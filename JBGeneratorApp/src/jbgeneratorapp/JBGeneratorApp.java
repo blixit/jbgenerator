@@ -3,19 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jbgenerator.main;
+package jbgeneratorapp;
+
+import jbgenerator.lib.JBType;
+import java.lang.Integer;
 
 /**
  *
- * @author centrale
+ * @author Blixit
  */
-public class Jbarchitect {
+public class JBGeneratorApp {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JBType type;
+        try{
+            Integer i = 5;
+            type = new JBType(i.getClass());
+        }catch(Exception e){
+            
+        }
     }
     
 }
