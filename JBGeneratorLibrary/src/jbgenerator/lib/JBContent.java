@@ -5,7 +5,7 @@
 * @class : 
 * 
  */
-package jbgenerator.ebauche;
+package jbgenerator.lib;
 
 import java.util.ArrayList;
 import java.util.List;
