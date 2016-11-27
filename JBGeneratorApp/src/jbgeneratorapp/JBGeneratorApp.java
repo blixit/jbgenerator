@@ -81,7 +81,7 @@ public class JBGeneratorApp {
         gen.setConccurentCalls(Integer.valueOf(parameters.get("cores").toString()));
         
         long parseTime = 0, time = 0;
-        Map<String,JBContent> jbclist = null;
+        List<JBContent> jbclist = null;
         
         try {
             System.out.println("Parsing "+parameters.get("xml").toString()+" ...");
@@ -92,7 +92,7 @@ public class JBGeneratorApp {
             parseTime = time - parseTime;
                 
             System.out.println("Generating java beans ..."); 
-            gen.write(new ArrayList(jbclist.values())); 
+            gen.write(jbclist); 
             
             time = System.nanoTime() - time;
         } catch (InterruptedException | UnsupportedEncodingException | FileNotFoundException ex) {

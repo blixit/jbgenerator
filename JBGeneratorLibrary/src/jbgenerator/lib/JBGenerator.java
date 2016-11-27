@@ -115,7 +115,14 @@ public class JBGenerator {
     public int getConccurentCalls() { return JBGenerator.conccurentCalls; }
     public void setConccurentCalls(int value) { JBGenerator.conccurentCalls = value; }
     
-    public Map<String,JBContent> parseXML(String filename) throws Exception{
+    /**
+     * This method parses the xml file using java xml reader. The 'table' tags are transformed into JBContent objects.
+     * 'Relation' tags are used to find relation between tables.
+     * @param filename The xml file to use.
+     * @return a list of JBContent objects.
+     * @throws Exception 
+     */
+    public List<JBContent> parseXML(String filename) throws Exception{
         Map<String,JBContent> jbclist = new HashMap<>(); 
         try {
             File xml = new File(filename);
@@ -163,11 +170,7 @@ public class JBGenerator {
                         callables.add(job); 
                     }
                 } 
-                pool.invokeAll(callables);  
-                
-                /*System.out.println("NB jbc  : "+ jbclist.size());
-                System.out.println("NB Tables  : "+ tables.getLength());
-                System.out.println("NB columns  : "+ colIdToName.size());*/
+                pool.invokeAll(callables);   
                  
                 /*
                 *   For the while, thix program just manages 2 policies (useComponent, useForeignKey).
@@ -209,7 +212,7 @@ public class JBGenerator {
         } catch (Exception ex) {
             Logger.getLogger(JBGenerator.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return jbclist;
+        return new ArrayList(jbclist.values());
     }
     
     /**
