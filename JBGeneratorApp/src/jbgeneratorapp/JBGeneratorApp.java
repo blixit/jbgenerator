@@ -7,7 +7,9 @@ package jbgeneratorapp;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -90,7 +92,7 @@ public class JBGeneratorApp {
             parseTime = time - parseTime;
                 
             System.out.println("Generating java beans ..."); 
-            gen.write(jbclist); 
+            gen.write(new ArrayList(jbclist.values())); 
             
             time = System.nanoTime() - time;
         } catch (InterruptedException | UnsupportedEncodingException | FileNotFoundException ex) {

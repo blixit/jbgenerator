@@ -309,7 +309,7 @@ public class JBGenerator {
         }
     }
 
-    public void write(Map<String,JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
+    public void write(List<JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
         JBWriter.write(this, jbclist); 
     }
     

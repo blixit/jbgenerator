@@ -28,18 +28,44 @@ import java.util.logging.Logger;
  */
 public class JBWriter implements Runnable{ 
      
-    
-    private OutputStream out;
     /**
-     * A {@link JBGenerator} contains required settings such as paths and policies. 
+     * File Handle 
+     */
+    private OutputStream out;
+    
+    /**
+     * A {@link JBGenerator} object contains required settings such as paths and policies. 
      */
     private JBGenerator gen;
+    
+    /**
+     * The {@link JBContent} object to convert into a java class
+     */
     private JBContent jbc;
     
+    /**
+     * The number of spaces to make an indentation.
+     */
     private int indentation;
+    
+    /**
+     * The space string preceding each line
+     */
     private String indentationString;
+    
+    /**
+     * The default indentation 
+     */
     static final int defaultIndentation = 2;
     
+    /**
+     * Constructeur
+     * @param gen a JBGenerator object
+     * @param jbc the JBContent to convert into a java class
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public JBWriter(JBGenerator gen, JBContent jbc) throws UnsupportedEncodingException, FileNotFoundException, IOException{
                 
         File file = new File(gen.getOutDir()+jbc.getName()+".java");
@@ -53,18 +79,32 @@ public class JBWriter implements Runnable{
         this.indentationString = "";
     }
     
+    /**
+     * Increase the current indentation and update the indentation string.
+     */
     private void indent(){
         indentation += defaultIndentation; 
         setIndentString();
     }
     
+    /**
+     * Decrease the current indentation and update the indentation string.
+     */
     private void deindent(){
         indentation = indentation >= defaultIndentation ? indentation-defaultIndentation : 0; 
         setIndentString();
     }
     
+    /**
+     * Update the indentation string. 
+     */
     private void setIndentString(){ indentationString = indentation <= 0 ? "" : new String(new char[indentation]).replace('\0', ' '); }
     
+    /**
+     * Write a line with the given string as content
+     * @param str the line to write
+     * @throws IOException 
+     */
     private void writeLine( String str) throws IOException{
          
         str = indentationString+str+"\n";
@@ -72,10 +112,18 @@ public class JBWriter implements Runnable{
         this.out.write(str.getBytes());
     }
         
+    /**
+     * Write the project package line.
+     * @throws IOException 
+     */
     private void writeProjectPackage() throws IOException{ 
         writeLine("package "+gen.getProjectPackage()+";");
     }
     
+    /**
+     * Write the dependencies lines (imports).
+     * @throws IOException 
+     */
     private void writeDependenciesPackage() throws IOException{  
         List<String> dependencies = new ArrayList<>();
         
@@ -93,6 +141,10 @@ public class JBWriter implements Runnable{
         }
     }
     
+    /**
+     * Write the class body.
+     * @throws IOException 
+     */
     private void writeClass() throws IOException{
         if(gen.getGenerateDoc()){ 
             writeLine("/**");
@@ -111,6 +163,10 @@ public class JBWriter implements Runnable{
         writeLine("}");
     }
     
+    /**
+     * Write class properties.
+     * @throws IOException 
+     */
     private void writeProperties() throws IOException{
         for(JBProperty p : jbc.getPropertiesList()){            
             if(gen.getGenerateDoc()){ 
@@ -125,6 +181,10 @@ public class JBWriter implements Runnable{
         }
     }
     
+    /**
+     * Write the default constructor.
+     * @throws IOException 
+     */
     private void writeDefaultConstructor() throws IOException{
         if(gen.getGenerateDoc()){ 
             writeLine("/**");
@@ -146,6 +206,10 @@ public class JBWriter implements Runnable{
         writeLine("}");
     }
     
+    /**
+     * Write the constructor with arguments.
+     * @throws IOException 
+     */
     private void writeArgsConstructor() throws IOException{
         if(jbc.getPropertiesList().size() > 0){                   
             if(gen.getGenerateDoc()){ 
@@ -176,6 +240,10 @@ public class JBWriter implements Runnable{
         }
     }
     
+    /**
+     * Write the copy constructor.
+     * @throws IOException 
+     */
     private void writeCopyConstructor() throws IOException{        
         if(gen.getGenerateDoc()){ 
             writeLine("/**");
@@ -193,6 +261,10 @@ public class JBWriter implements Runnable{
         writeLine("}");
     }
     
+    /**
+     * Write all the constructors.
+     * @throws IOException 
+     */
     private void writeConstructors() throws IOException{
         writeDefaultConstructor();
         writeLine("");
@@ -205,6 +277,10 @@ public class JBWriter implements Runnable{
         
     }
     
+    /**
+     * Write the getters and setters.
+     * @throws IOException 
+     */
     private void writeGSetters() throws IOException{
         for(JBProperty p : jbc.getPropertiesList()){
             String type = p.getTypeToUse().isEmpty() ? p.getType().get().getSimpleName() : p.getTypeToUse() ;
@@ -224,6 +300,11 @@ public class JBWriter implements Runnable{
         }
     }
     
+    /**
+     * Write the entire java class file. 
+     * @param indent the initial indentation. Use 0 to start to the left corner.
+     * @throws IOException 
+     */
     public void write(int indent) throws IOException{
         System.out.println("Writing "+gen.getOutDir()+jbc.getName()+".java");
         indentation = indent; 
@@ -235,16 +316,29 @@ public class JBWriter implements Runnable{
         writeClass(); 
     }
 
-    public static void write(JBGenerator g,Map<String,JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
+    /**
+     * Each JBContent object of the list are written. If there are enough cores, the writting can be done
+     * simultaneously.
+     * @param g a JBGenerator object
+     * @param jbclist a map 
+     * @throws InterruptedException
+     * @throws UnsupportedEncodingException
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    public static void write(JBGenerator g, List<JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
         ExecutorService pool = Executors.newFixedThreadPool(g.getConccurentCalls());
           
-        for(String key : jbclist.keySet())
-            pool.execute( new JBWriter(g,jbclist.get(key)) ); 
+        for(JBContent jbc : jbclist)
+            pool.execute( new JBWriter(g,jbc) ); 
         
         pool.shutdown();
         pool.awaitTermination(1, TimeUnit.HOURS);  
     }
     
+    /**
+     * This method is inherited from Runable. It's a callback function for simultaneous calls.
+     */
     @Override
     public void run() {
         try {
