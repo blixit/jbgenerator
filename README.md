@@ -22,7 +22,7 @@ Voici la syntaxe :
 -c|--cores=[number of cores to use. default=4]
 -n|--name=[project name]
 -p|--pack=[package name]
--k|--kmp=[key management policy (0=default or 1=useComponent) default=0]
+-k|--kmp=[key management policy (0=default or 1=useComponent) default=0] 
 -d|--doc=[documentation generation (0=false, 1=true) default=1]
 ```
 
