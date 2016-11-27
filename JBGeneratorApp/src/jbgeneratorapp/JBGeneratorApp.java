@@ -32,14 +32,14 @@ public class JBGeneratorApp {
      */
     public static void main(String[] args) {
         /**
-         * On simule un appel avec des arguments 
+         * Pour simuler un appel avec des arguments sans passer par la ligne de commande, décommenter le code ci-dessous.
          */
-        args = new String[5];
+        /*args = new String[5];
         args[0] = "-x=/home/blixit/Documents/2016-2017/PAPPL/architect.architect";
         args[1] = "-c=1";
         args[2] = "-n=monprojetSansEspace";
         args[3] = "-p=com.example.main";
-        args[4] = "-k=0";
+        args[4] = "-k=0";*/
         
         /**
          * il s'agit d'un utilitaire. on peut l'utiliser depuis la console.   

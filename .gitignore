@@ -4,3 +4,5 @@ nbproject/
 /JBGeneratorLibrary/build/
 /JBGeneratorApp/build/
 JBGeneratorApp/out/
+/JBGeneratorApp/dist/
+/JBGeneratorLibrary/dist/
