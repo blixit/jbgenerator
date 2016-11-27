@@ -48,7 +48,7 @@ public class JBGeneratorApp {
             jbclist = gen.parseXML("/home/userPath/architect.architect");   
                 
             System.out.println("Generating java beans ..."); 
-            JBWriter.write(gen, jbclist);  
+            gen.write(jbclist);  
 
         } catch (InterruptedException | UnsupportedEncodingException | FileNotFoundException ex) {
             Logger.getLogger(JBGeneratorApp.class.getName()).log(Level.SEVERE, null, ex);

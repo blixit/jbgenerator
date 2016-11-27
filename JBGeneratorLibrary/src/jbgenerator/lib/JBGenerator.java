@@ -8,6 +8,9 @@
 package jbgenerator.lib;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -306,6 +309,10 @@ public class JBGenerator {
         }
     }
 
+    public void write(Map<String,JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
+        JBWriter.write(this, jbclist); 
+    }
+    
     /**
      * Retourne la page de d'aide du programme de test.
      * @return  une chaine de charactère contenant l'aide.

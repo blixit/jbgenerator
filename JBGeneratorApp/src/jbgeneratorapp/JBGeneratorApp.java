@@ -90,7 +90,7 @@ public class JBGeneratorApp {
             parseTime = time - parseTime;
                 
             System.out.println("Generating java beans ..."); 
-            JBWriter.write(gen, jbclist); 
+            gen.write(jbclist); 
             
             time = System.nanoTime() - time;
         } catch (InterruptedException | UnsupportedEncodingException | FileNotFoundException ex) {
