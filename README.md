@@ -84,7 +84,7 @@ public class JBGeneratorApp {
          
         gen.setConccurentCalls(4);
          
-        Map<String,JBContent> jbclist = null;
+        List<JBContent> jbclist = null;
         
         try {
             System.out.println("Parsing ..."); 
