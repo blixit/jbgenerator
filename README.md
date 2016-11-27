@@ -35,7 +35,7 @@ public class JBGeneratorApp {
             "sample", 
             "com.example.main",  
             "./out/",     
-            JBGenerator.KeyManagementPolicy.e,   
+            JBGenerator.KeyManagementPolicy.useForeignKey,   
             true
         );
          
