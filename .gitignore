@@ -1,4 +1,6 @@
 build.xml
 manifest.mf
-nbproject/
-        
+nbproject/        
+/JBGeneratorLibrary/build/
+/JBGeneratorApp/build/
+JBGeneratorApp/out/

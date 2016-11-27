@@ -40,9 +40,8 @@ public class JBWriter implements Runnable{
     private String indentationString;
     static final int defaultIndentation = 2;
     
-    JBWriter(JBGenerator gen, JBContent jbc) throws UnsupportedEncodingException, FileNotFoundException, IOException{
-        System.out.println("fichier : "+gen.getOutDir()+jbc.getName()+".java");
-        
+    public JBWriter(JBGenerator gen, JBContent jbc) throws UnsupportedEncodingException, FileNotFoundException, IOException{
+                
         File file = new File(gen.getOutDir()+jbc.getName()+".java");
         if( ! file.exists())
             file.createNewFile();
@@ -226,6 +225,7 @@ public class JBWriter implements Runnable{
     }
     
     public void write(int indent) throws IOException{
+        System.out.println("Writing "+gen.getOutDir()+jbc.getName()+".java");
         indentation = indent; 
         
         writeProjectPackage();

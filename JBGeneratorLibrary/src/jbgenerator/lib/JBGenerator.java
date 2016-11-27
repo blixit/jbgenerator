@@ -64,7 +64,16 @@ public class JBGenerator {
      */
     public enum KeyManagementPolicy{ 
         useForeignKey,  
-        useComponent
+        useComponent;
+        public static KeyManagementPolicy fromInteger(int x) {
+            switch(x) {
+            case 0:
+                return useForeignKey;
+            case 1:
+                return useComponent;
+        }
+        return null;
+    }
     }
     
     //Optimization variables
@@ -103,7 +112,7 @@ public class JBGenerator {
     public int getConccurentCalls() { return JBGenerator.conccurentCalls; }
     public void setConccurentCalls(int value) { JBGenerator.conccurentCalls = value; }
     
-    Map<String,JBContent> parseXML(String filename) throws Exception{
+    public Map<String,JBContent> parseXML(String filename) throws Exception{
         Map<String,JBContent> jbclist = new HashMap<>(); 
         try {
             File xml = new File(filename);
@@ -296,4 +305,84 @@ public class JBGenerator {
             //System.out.println("Relation : "+tabfk.getName()+" importe "+tabpk.getName()+" sur "+colRef);
         }
     }
+
+    /**
+     * Retourne la page de d'aide du programme de test.
+     * @return  une chaine de charactère contenant l'aide.
+     */
+    public static String getSyntaxe(){
+        return "Please follow the previous syntax : \n"
+                + "-x|--xml=[xml file]\n"
+                + "-o|--out=[out directory. default=./]\n"
+                + "-c|--cores=[number of cores to use. default=4]\n"
+                + "-n|--name=[project name]\n"
+                + "-p|--pack=[package name]\n"
+                + "-k|--kmp=[key management policy (0=default or 1=useComponent) default=0]\n"
+                + "-d|--doc=[documentation generation (0=false, 1=true) default=1]\n\n"
+                + "Example : \n"
+                + "jbgenerator -x=filename.architect -c=4 -n=monprojetSansEspace -p=com.example.main -k=0\n\n";
+    }
+    
+    /**
+     * Extrait les arguments saisis lors d'une exécution depuis la console.
+     * @param args les arguments saisis
+     * @param xml le fichier xml
+     * @param out le répertoire de sortie
+     * @param outdir 
+     * @param cores
+     * @param name
+     * @param pack
+     * @param kmp
+     * @param doc
+     * @param kmpolicy
+     * @param generateDoc
+     * @throws Exception 
+     */
+    public static void extractConsoleArgs(String[] args, Map<String,Object> valeurs/*,
+            String xml, String out, String cores, String name, String pack, String kmp, String doc,
+            JBGenerator.KeyManagementPolicy kmpolicy, boolean generateDoc*/
+    ) throws Exception{
+        for (int i = 0; i < args.length; i++) {
+            String[] arg = args[i].split("="); 
+            if(arg[0].equals("-x") || arg[0].equals("--xml")){  
+                valeurs.put("xml", arg[1]); 
+            }else if(arg[0].equals("-o") || arg[0].equals("--out")){ 
+                valeurs.put("out", arg[1]); 
+            }else if(arg[0].equals("-c") || arg[0].equals("--cores")){ 
+                valeurs.put("cores", arg[1]); 
+            }else if(arg[0].equals("-n") || arg[0].equals("--name")){ 
+                valeurs.put("name", arg[1]); 
+            }else if(arg[0].equals("-p") || arg[0].equals("--pack")){ 
+                valeurs.put("pack", arg[1]); 
+            }else if(arg[0].equals("-k") || arg[0].equals("--kmp")){ 
+                valeurs.put("kmp", arg[1]); 
+            }else if(arg[0].equals("-d") || arg[0].equals("--doc")){ 
+                valeurs.put("doc", arg[1]); 
+            }          
+        }
+        
+        if(valeurs.get("xml") == null)
+            throw new Exception("The file name is uncorrect.");
+        if(valeurs.get("cores") == null || ! ((String)valeurs.get("cores")).chars().allMatch(Character::isDigit))
+            throw new Exception("The number of cores is uncorrect.");
+        if(valeurs.get("name") == null)
+            throw new Exception("The project name is uncorrect.");
+        if(valeurs.get("pack") == null)
+            throw new Exception("The package name is uncorrect.");
+        if( valeurs.get("kmp") == null)
+            throw new Exception("The choosen policy is uncorrect.");
+        else{
+            int v = Integer.valueOf(valeurs.get("kmp").toString());
+            valeurs.put("kmp", v);                        
+        }
+        if( valeurs.get("doc") == null )
+            throw new Exception(" : The value for the option `-d|--doc` is uncorrect.");
+        else{
+            int v = Integer.valueOf(valeurs.get("doc").toString());
+            valeurs.put("doc", v != 0 ? true : false);
+        }
+         
+        
+    }
+
 }
