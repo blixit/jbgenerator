@@ -289,14 +289,22 @@ public class JBWriter implements Runnable{
                 writeLine("* A getter for "+p.getName());
                 writeLine("*/");
             }
-            writeLine("public "+type+" "+p.getter()+"(){ return this."+p.getName()+";}"); 
+            writeLine("public "+type+" "+p.getter()+"(){"); 
+            indent();
+            writeLine("return this."+p.getName()+";"); 
+            deindent();
+            writeLine("}"); 
             if(gen.getGenerateDoc()){ 
                 writeLine("/**");
                 writeLine("* A setter for "+p.getName());
                 writeLine("* @param : A {@link "+type+"} .");;
                 writeLine("*/");
             }
-            writeLine("public void "+p.setter()+"("+type+" value){ this."+p.getName()+" = value;}"); 
+            writeLine("public void "+p.setter()+"("+type+" value){"); 
+            indent();
+            writeLine("this."+p.getName()+" = value;"); 
+            deindent();
+            writeLine("}"); 
         }
     }
     

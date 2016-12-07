@@ -322,8 +322,9 @@ public class JBGenerator {
      */
     public static String getSyntaxe(){
         return "Please follow the previous syntax : \n"
+                + "? [Help]\n"
                 + "-x|--xml=[xml file]\n"
-                + "-o|--out=[out directory. default=./]\n"
+                + "-o|--out=[output directory. default=./]\n"
                 + "-c|--cores=[number of cores to use. default=4]\n"
                 + "-n|--name=[project name]\n"
                 + "-p|--pack=[package name]\n"

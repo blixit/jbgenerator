@@ -43,6 +43,12 @@ public class JBGeneratorApp {
         
         /**
          * il s'agit d'un utilitaire. on peut l'utiliser depuis la console.   
+         */
+        if(args[0].equals("?")){
+            System.out.println(JBGenerator.getSyntaxe());
+            System.exit(0);
+        }
+        /**
          * La vérification ci-dessous peut être supprimée dans le cas ou la librairie est réutilisée dans un autre projet.
          */
         if(args.length < 3){
