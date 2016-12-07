@@ -17,6 +17,7 @@ java -jar JBGeneratorApp/dist/JBGeneratorApp.jar -x=/home/blixit/Documents/2016-
 ```
 Voici la syntaxe : 
 ```
+?	[Help]
 -x|--xml=[xml file] 
 -o|--out=[out directory. default=./]
 -c|--cores=[number of cores to use. default=4]
