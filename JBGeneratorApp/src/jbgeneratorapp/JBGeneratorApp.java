@@ -109,9 +109,10 @@ public class JBGeneratorApp {
         
         parseTime /= 1000000.;
         time /= 1000000.;
-        System.out.println("Parsing Time : "+parseTime+" ms");
-        System.out.println("Generation Time : "+time+" ms");
+        System.out.println("\nJava classes generated : "+jbclist.size());
         System.out.println("Total Time : "+(time+parseTime)+" ms");
+        System.out.println("-Parsing Time : "+parseTime+" ms");
+        System.out.println("-Generation Time : "+time+" ms");
         System.out.println("Processors count : "+gen.getConccurentCalls());
     }
     
