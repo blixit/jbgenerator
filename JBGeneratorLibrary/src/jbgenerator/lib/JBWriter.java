@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * The function of this class is to write a JBContent in the java class format.
  * @author blixit
  */
 public class JBWriter implements Runnable{ 
@@ -62,9 +62,9 @@ public class JBWriter implements Runnable{
      * Constructeur
      * @param gen a JBGenerator object
      * @param jbc the JBContent to convert into a java class
-     * @throws UnsupportedEncodingException
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws UnsupportedEncodingException Because of File
+     * @throws FileNotFoundException Because of File
+     * @throws IOException Because of File
      */
     public JBWriter(JBGenerator gen, JBContent jbc) throws UnsupportedEncodingException, FileNotFoundException, IOException{
                 
@@ -311,7 +311,7 @@ public class JBWriter implements Runnable{
     /**
      * Write the entire java class file. 
      * @param indent the initial indentation. Use 0 to start to the left corner.
-     * @throws IOException 
+     * @throws IOException Because of writeLine()
      */
     public void write(int indent) throws IOException{
         System.out.println("Writing "+gen.getOutDir()+jbc.getName()+".java");
@@ -329,10 +329,10 @@ public class JBWriter implements Runnable{
      * simultaneously.
      * @param g a JBGenerator object
      * @param jbclist a map 
-     * @throws InterruptedException
-     * @throws UnsupportedEncodingException
-     * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws InterruptedException Because of ExecutorService
+     * @throws UnsupportedEncodingException Because of ExecutorService
+     * @throws FileNotFoundException Because of ExecutorService
+     * @throws IOException Because of JBWriter constructor
      */
     public static void write(JBGenerator g, List<JBContent> jbclist) throws InterruptedException, UnsupportedEncodingException, FileNotFoundException, IOException{
         ExecutorService pool = Executors.newFixedThreadPool(g.getConccurentCalls());

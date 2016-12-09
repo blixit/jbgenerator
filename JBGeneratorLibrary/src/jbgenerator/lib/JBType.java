@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- *
+ * This class stores a type. It is needed to convert a SQL Power architect type to a Java type.
  * @author Blixit, Tisba F
  */
 public class JBType {
@@ -26,8 +26,8 @@ public class JBType {
      
     /**
      * Create a type from uuid-field retrieved from the architect file.
-     * @param uuid 
-     * @throws java.lang.Exception 
+     * @param uuid The uuid value of a given type following the SQL Power Architect notation.
+     * @throws java.lang.Exception If the uuid is not handled
      */
     public JBType(String uuid) throws Exception{ 
         try{
@@ -39,8 +39,8 @@ public class JBType {
      
     /**
      * Create a type from uuid-field retrieved from the architect file.
-     * @param uuid 
-     * @throws java.lang.Exception 
+     * @param uuid The uuid value of a given type following the SQL Power Architect notation.
+     * @throws java.lang.Exception If the uuid is not handled
      */
     public JBType(int uuid) throws Exception{
         try{
@@ -52,8 +52,8 @@ public class JBType {
     
     /**
      * Create a non-primitive type. That means you can't create a type like int, char or long ...
-     * @param t 
-     * @throws java.lang.Exception 
+     * @param t a Class from which we create a JBType object.
+     * @throws java.lang.Exception If the t is a primitive type.
      */
     public JBType(Class t) throws Exception{
         if(t.isPrimitive())
@@ -63,7 +63,7 @@ public class JBType {
     
     /**
      * Copy Constructor
-     * @param t 
+     * @param t a JbType object
      */
     public JBType(JBType t){
         type = t.get();
@@ -71,13 +71,13 @@ public class JBType {
     
     /**
      * Getter for the type attribute
-     * @return 
+     * @return the Class attribute
      */
     public Class get(){ return this.type; }
     
     /**
      * Converts a {@link JBType} to a string
-     * @return 
+     * @return a string with the name of the type
      */
     @Override
     public String toString(){
@@ -85,9 +85,9 @@ public class JBType {
     }
     
     /**
-     * Checks if a class is a wrraper type.
-     * @param clazz
-     * @return 
+     * Checks if a class is a wrapper type.
+     * @param clazz The class to check
+     * @return True is the given class is a wrapper, false else.
      */
     public static boolean isWrapperType(Class<?> clazz)
     {

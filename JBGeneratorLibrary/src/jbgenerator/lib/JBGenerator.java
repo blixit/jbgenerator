@@ -33,7 +33,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node; 
 
 /**
- *
+ * This is the kernel of the library. This class stores informations about the Architect project to write
+ * and provides functions to convert a SQL relation to a Java Class
  * @author blixit
  */
 public class JBGenerator {
@@ -85,6 +86,9 @@ public class JBGenerator {
      */
     private ReentrantLock lock;
     
+    /**
+     * An integer which gives the count of processors to use.
+     */
     private static int conccurentCalls = Runtime.getRuntime().availableProcessors();
     
     /**
@@ -92,7 +96,7 @@ public class JBGenerator {
      * @param project project name
      * @param pack project package
      * @param dir path to store output files
-     * @param policy
+     * @param policy the way we manage foreign keys
      * @param doc a boolean 
      */
     public JBGenerator(String project, String pack, String dir,KeyManagementPolicy policy, boolean doc){
@@ -113,14 +117,23 @@ public class JBGenerator {
     public boolean getGenerateDoc(){ return this.generateDoc; }
     public void setGenerateDoc(boolean value){ this.generateDoc = value; }
     public int getConccurentCalls() { return JBGenerator.conccurentCalls; }
-    public void setConccurentCalls(int value) { JBGenerator.conccurentCalls = value; }
+    /**
+     * Set the number of processors to use. 
+     * @param value the desired number of processor
+     * @throws Exception If the value is less than 0 or greater than the number of available processors.
+     */
+    public void setConccurentCalls(int value) throws Exception { 
+        if(value<=0 || value > Runtime.getRuntime().availableProcessors())
+            throw new Exception("This value is not allowed.");
+        JBGenerator.conccurentCalls = value; 
+    }
     
     /**
      * This method parses the xml file using java xml reader. The 'table' tags are transformed into JBContent objects.
      * 'Relation' tags are used to find relation between tables.
      * @param filename The xml file to use.
      * @return a list of JBContent objects.
-     * @throws Exception 
+     * @throws Exception If the parsing fails.
      */
     public List<JBContent> parseXML(String filename) throws Exception{
         Map<String,JBContent> jbclist = new HashMap<>(); 
@@ -336,23 +349,11 @@ public class JBGenerator {
     
     /**
      * Extrait les arguments saisis lors d'une exécution depuis la console.
-     * @param args les arguments saisis
-     * @param xml le fichier xml
-     * @param out le répertoire de sortie
-     * @param outdir 
-     * @param cores
-     * @param name
-     * @param pack
-     * @param kmp
-     * @param doc
-     * @param kmpolicy
-     * @param generateDoc
-     * @throws Exception 
+     * @param args les arguments saisis (x,o,c,n,p,k,d)
+     * @param valeurs a reference to store the values of the arguments
+     * @throws Exception If arguments are badly written
      */
-    public static void extractConsoleArgs(String[] args, Map<String,Object> valeurs/*,
-            String xml, String out, String cores, String name, String pack, String kmp, String doc,
-            JBGenerator.KeyManagementPolicy kmpolicy, boolean generateDoc*/
-    ) throws Exception{
+    public static void extractConsoleArgs(String[] args, Map<String,Object> valeurs) throws Exception{
         for (int i = 0; i < args.length; i++) {
             String[] arg = args[i].split("="); 
             if(arg[0].equals("-x") || arg[0].equals("--xml")){  

@@ -8,7 +8,7 @@
 package jbgenerator.lib;
 
 /**
- *
+ * This class stores information of an attribute : its name, its types and its default value.
  * @author blixit
  */
 public class JBProperty {
@@ -57,7 +57,7 @@ public class JBProperty {
     
     /**
      * Copy Constructor
-     * @param p 
+     * @param p a property object
      */
     public JBProperty(JBProperty p){
         this.name = p.getName();
@@ -79,23 +79,23 @@ public class JBProperty {
     public int getUuid(){return this.uuid;} 
     
     /**
-     * Return the name of the getter method
-     * @return 
+     * Builds the name of the getter method
+     * @return a string with the getter name
      */
     public String getter(){
         return "get"+this.name.toUpperCase().charAt(0)+this.name.substring(1);
     }
     
     /**
-     * Return the name of the setter method
-     * @return 
+     * Builds the name of the setter method
+     * @return a string with the setter name
      */
     public String setter(){
         return "set"+this.name.toUpperCase().charAt(0)+this.name.substring(1);
     }
     /**
      * Converts a {@link JBProperty} to a string
-     * @return 
+     * @return a string with the name, the type, the uuid and the default value.
      */
     @Override
     public String toString(){

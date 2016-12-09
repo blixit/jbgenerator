@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This class stores the content of a SQL relation (= a table in the architect schema).
  * @author Blixit, Tisba F
  */
 public class JBContent {
@@ -32,6 +32,11 @@ public class JBContent {
      */
     private static int instance = 0;
     
+    /**
+     * Constructeur
+     * @param Name Nom de l'entité correspondant à la classe java à générer. Il est extrait de la balise table du fichier .architect.
+     * @param prop Liste des propriétés de l'entité
+     */
     public JBContent(String Name, List<JBProperty> prop){
         this.name = Name; 
         this.propertiesList = new ArrayList<>(prop); 
@@ -46,7 +51,7 @@ public class JBContent {
     
     /**
      * Converts a {@link JBContent} to a string.
-     * @return 
+     * @return A text which contains the name of the object
      */
     @Override
     public String toString(){
